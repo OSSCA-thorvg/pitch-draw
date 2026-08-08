@@ -1,0 +1,147 @@
+:root {
+  color-scheme: dark;
+  --paper: #ece5d8;
+  --lacquer: oklch(7% 0.006 95);
+  --lacquer-deep: oklch(4% 0.004 95);
+  --raised: oklch(11% 0.006 95);
+  --graphite: oklch(15% 0.008 95);
+  --graphite-2: oklch(19% 0.008 95);
+  --champagne: oklch(91% 0 0);
+  --text: oklch(86% 0 0);
+  --muted: oklch(70% 0 0);
+  --faint: oklch(56% 0 0);
+  --kinpaku: oklch(84% 0.19 80.46);
+  --kinpaku-soft: oklch(78% 0.12 82 / 0.16);
+  --kinpaku-rule: oklch(74% 0.09 82 / 0.58);
+  --patina: oklch(70% 0.12 188);
+  --patina-soft: oklch(70% 0.105 190 / 0.16);
+  --warn: oklch(58% 0.15 35);
+  --rule: oklch(78% 0 0 / 0.16);
+  --shadow: 0 20px 50px oklch(0% 0 0 / 0.42);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, oklch(70% 0.12 188 / 0.055) 1px, transparent 1px),
+    linear-gradient(0deg, oklch(84% 0.19 80.46 / 0.035) 1px, transparent 1px),
+    var(--lacquer);
+  background-size: 72px 72px, 72px 72px, auto;
+  color: var(--text);
+  font: 15px/1.5 "Avenir Next", "Segoe UI", system-ui, sans-serif;
+}
+
+.app-shell {
+  width: min(1440px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 16px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 14px;
+}
+
+.topbar, .workspace, .tool-panel, .meter-rail, #readout, .device-row {
+  border: 1px solid var(--rule);
+  background: oklch(11% 0.006 95 / 0.92);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 14px;
+  border-radius: 8px;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-mark {
+  width: 36px; height: 36px; flex: 0 0 auto;
+  background: var(--kinpaku);
+  clip-path: polygon(0 0, 100% 0, 100% 36%, 38% 100%, 0 100%);
+}
+h1 { margin: 0; color: var(--champagne); font-size: 22px; font-weight: 520; line-height: 1.12; }
+.lede { margin: 1px 0 0; color: var(--muted); font-size: 13px; }
+#status { color: var(--muted); font-size: 13px; text-align: right; min-width: 180px; }
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(248px, 300px) minmax(420px, 1fr) minmax(230px, 280px);
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background: oklch(4% 0.004 95 / 0.88);
+}
+
+.input-rail, .meter-rail, .stage-deck { min-width: 0; }
+.input-rail, .meter-rail { display: flex; flex-direction: column; gap: 10px; }
+.stage-deck { display: grid; grid-template-rows: 1fr auto auto; gap: 10px; }
+
+.tool-panel, .meter-rail, #readout {
+  border-radius: 6px;
+  padding: 12px;
+  position: relative;
+}
+
+.panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.num { color: var(--kinpaku); font: 12px/1 "SFMono-Regular", Consolas, monospace; }
+.label, #readout .k { color: var(--muted); font-size: 12px; }
+
+.button-grid, .compact-row, .transport, .device-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.button-grid { margin-bottom: 8px; }
+.compact-row { margin-top: 8px; }
+
+button, select, .file, textarea {
+  color: var(--text);
+  background: var(--graphite);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font: inherit;
+}
+button, select, .file {
+  min-height: 36px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background .14s ease, border-color .14s ease, transform .08s ease;
+}
+button:hover:not(:disabled), select:hover:not(:disabled), .file:hover {
+  background: var(--graphite-2);
+  border-color: var(--kinpaku-rule);
+}
+button:active:not(:disabled), .file:active { transform: translateY(1px); }
+button:disabled, select:disabled, textarea:disabled {
+  color: var(--faint);
+  background: oklch(9% 0.004 95);
+  cursor: default;
+}
+:focus-visible { outline: 2px solid var(--patina); outline-offset: 2px; }
+.file input { display: none; }
+
+button.sample { border-color: var(--patina-soft); color: var(--patina); }
+button.song { border-color: var(--kinpaku-soft); color: var(--kinpaku); }
+button.song.on, button.primary {
+  background: var(--kinpaku);
+  border-color: var(--kinpaku);
+  color: oklch(14% 0.018 95);
+}
+
+#melody-text {
+  width: 100%;
+  min-height: 168px;
+  padding: 12px;
+  resize: vertical;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+#mml-part { flex: 1 1 120px; }
+#apply-melody, #record-song, .file { flex: 1 1 auto; text-align: center; }
