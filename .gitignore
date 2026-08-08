@@ -1,0 +1,7 @@
+node_modules/
+
+# tsc 산출물. 저장소에는 원본(.ts)만 둔다 — `npm run build` 로 만든다.
+dist/
+
+# 테스트 산출물. dist/ 와 섞이지 않게 따로 뺀다.
+dist-test/

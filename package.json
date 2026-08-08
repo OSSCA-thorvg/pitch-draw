@@ -1,0 +1,21 @@
+{
+  "name": "pitch-draw",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "그림과 노래를 각각 넣는다. 그 노래를 부르면 그림이 그려진다.",
+  "packageManager": "pnpm@10.27.0",
+  "engines": {
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "check": "tsc --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "test": "tsc -p tsconfig.test.json && node --test \"dist-test/**/*.test.js\""
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  }
+}
