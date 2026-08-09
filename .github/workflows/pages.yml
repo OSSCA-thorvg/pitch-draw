@@ -29,6 +29,9 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
