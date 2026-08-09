@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="SVG 그림과 악보를 넣고 노래를 부르면 음정 오차만큼 선이 흔들리며 그림이 그려지는 ThorVG WebCanvas 앱"
+    >
+    <title>음정으로 그리는 그림</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ece5d8'/%3E%3Cpath d='M8 42 Q22 8 36 32 T58 22' fill='none' stroke='%23161511' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='17' cy='37' r='5' fill='%23d6a21f'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./stage.css">
+  </head>
+  <body data-state="loading">
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>음정으로 그리는 그림</h1>
+            <p class="lede">그림은 SVG로, 노래는 악보로. 부른 음정이 곧 붓의 궤적이 됩니다.</p>
+          </div>
+        </div>
+        <div id="status" role="status" aria-live="polite">그래픽을 준비하는 중입니다.</div>
+      </header>
+
+      <main class="workspace">
+        <aside class="input-rail" aria-label="입력">
+          <section class="tool-panel">
+            <div class="panel-head">
+              <span class="label">그림</span>
+              <span class="num">SVG</span>
+            </div>
+            <div id="samples" class="button-grid" aria-label="예제 그림"></div>
+            <label class="file">
+              SVG 파일 고르기
+              <input id="file" type="file" accept=".svg,image/svg+xml">
+            </label>
+          </section>
+
+          <section class="tool-panel">
+            <div class="panel-head">
+              <span class="label">노래</span>
+              <span id="score-meta" class="num">기본 멜로디</span>
+            </div>
+            <div id="melodies" class="button-grid" aria-label="내장 멜로디"></div>
+            <textarea
+              id="melody-text"
+              spellcheck="false"
+              aria-label="멜로디 직접 입력"
+              placeholder="도 레 미 파 솔&#10;C4 D4 E4 F4 G4&#10;MML@ t120 o4 l8 c d e f g;"
+            ></textarea>
+            <div class="compact-row">
+              <select id="mml-part" hidden aria-label="MML 파트"></select>
+              <button id="apply-melody" type="button">악보 적용</button>
+            </div>
+            <div class="compact-row">
+              <label class="file">
+                악보 파일
+                <input id="song-file" type="file" accept=".mid,.midi,.mml,.txt,audio/*">
+              </label>
+              <button id="record-song" type="button">노래로 악보 만들기</button>
+            </div>
+          </section>
+        </aside>
+
+        <section class="stage-deck" aria-label="그림판">
+          <div id="stage-wrap" class="stage-wrap">
+            <canvas id="stage"></canvas>
+            <div id="overlay">
+              <div id="overlay-title" class="big">그래픽을 준비하는 중입니다</div>
+              <div id="overlay-sub" class="small">잠시만 기다려주세요</div>
+            </div>
+            <div id="banner" aria-live="polite"><span id="banner-text"></span></div>
+          </div>
+
+          <div class="transport" aria-label="재생">
+            <button id="guide" type="button">가이드 음 듣기</button>
+            <button id="start" class="primary" type="button">시작</button>
+            <button id="restart" type="button">처음부터</button>
+            <button id="stop" type="button">멈추기</button>
+            <button id="again" class="primary" type="button">다시 그리기</button>
+          </div>
+          <p id="mic-note">마이크 권한을 허용한 뒤 소리를 내면 펜이 나아갑니다.</p>
+
+          <section class="song-strip" aria-label="악보">
+            <div class="tab-headline">
+              <span class="label">지금 부를 음</span>
+              <span class="target-current">
+                <span id="tab-target-note" class="target-note">—</span>
+                <span id="tab-target-hz" class="sub"></span>
+              </span>
+            </div>
+            <div id="tab-score" class="tab-score"></div>
+          </section>
+        </section>
+
+        <aside class="meter-rail" aria-label="계기판">
+          <section id="readout">
+            <div class="cell signal">
+              <span class="k">내 음</span>
+              <span id="cur-note" class="v big">—</span>
+              <span id="cur-hz" class="sub"></span>
+            </div>
+            <div class="cell target">
+              <span class="k">목표 음</span>
+              <span id="target-note" class="v big">—</span>
+              <span id="target-hz" class="sub"></span>
+            </div>
+            <div class="cell">
+              <span class="k">오차</span>
+              <span id="error-cents" class="v">—</span>
+              <span id="error-hint" class="sub"></span>
+            </div>
+            <div class="cell">
+              <span class="k">진행</span>
+              <span id="progress" class="v">0%</span>
+            </div>
+            <div class="cell">
+              <span class="k">음정 신뢰도</span>
+              <span id="clarity" class="v">—</span>
+              <div class="meter" aria-hidden="true"><div id="level"></div></div>
+            </div>
+          </section>
+
+          <div class="device-row">
+            <select id="device" aria-label="입력 장치"></select>
+            <button id="refresh" type="button">새로고침</button>
+          </div>
+          <div id="debug" aria-live="polite"></div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="./dist/main.js"></script>
+  </body>
+</html>

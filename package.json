@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "start": "node scripts/static-server.mjs 8123",
     "watch": "tsc --watch",
     "check": "tsc --noEmit && tsc -p tsconfig.test.json --noEmit",
     "test": "tsc -p tsconfig.test.json && node --test dist-test"
