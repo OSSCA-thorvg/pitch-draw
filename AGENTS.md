@@ -7,7 +7,8 @@ ThorVG WebCanvas 기반 정적 웹 앱.
 ## 빌드
 
 TypeScript 로 쓰고 `tsc` 로만 컴파일한다. 번들러는 쓰지 않는다 — 산출물이 ESM 그대로라
-`dist/` 를 정적으로 얹기만 하면 돌아간다. `vendor/` 는 손대지 않고 그 자리에서 불린다.
+산출물을 정적으로 제공한다. WebCanvas는 npm 패키지 `@thorvg/webcanvas`로 설치하고,
+빌드 시 JS·WASM을 `dist/webcanvas/`로 복사한다. `index.html`의 import map이 패키지 이름을 연결한다.
 
 패키지 매니저는 **pnpm** 이다. `package.json` 의 `packageManager` 에 버전을 박아뒀으니
 corepack 이 켜져 있으면 알아서 맞춰 쓴다.
@@ -38,8 +39,7 @@ ES 모듈이라 `file://` 로는 열리지 않는다 — 정적 서버로 띄운
 
 `dist/` 와 `node_modules/` 는 저장소에 넣지 않는다.
 
-ThorVG 번들에는 `.d.ts` 가 딸려 오지 않아 `vendor/webcanvas.esm.d.ts` 를 손으로 썼다.
-**이 앱이 실제로 쓰는 API 만** 들어 있다. 새 API 를 쓰려면 거기 먼저 추가한다.
+ThorVG 타입은 `@thorvg/webcanvas` 패키지에 포함된 공식 선언을 사용한다.
 
 ## 구조
 

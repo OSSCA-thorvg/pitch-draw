@@ -8,6 +8,6 @@
     "types": ["node"],
     "sourceMap": false
   },
-  "include": ["src", "vendor/webcanvas.esm.d.ts"],
+  "include": ["src"],
   "exclude": []
 }

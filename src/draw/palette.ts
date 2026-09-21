@@ -15,7 +15,9 @@
  * 렌더러가 도형으로 직접 깐다 — 합성 동작에 기대지 않는다.
  */
 
-import type { Color } from '../../vendor/webcanvas.esm.js';
+import type { StrokeOptions } from '@thorvg/webcanvas';
+
+export type Color = NonNullable<StrokeOptions['color']>;
 
 /**
  * `satisfies` 로 묶는다 — 색이 튜플 그대로 남아 렌더러가 `fill(...INK.pen)` 로 펼칠 수 있고,

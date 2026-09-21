@@ -9,14 +9,17 @@
     "pnpm": ">=10"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-webcanvas.mjs",
     "start": "node scripts/static-server.mjs 8123",
-    "watch": "tsc --watch",
+    "watch": "node scripts/copy-webcanvas.mjs && tsc --watch",
     "check": "tsc --noEmit && tsc -p tsconfig.test.json --noEmit",
     "test": "tsc -p tsconfig.test.json && node --test dist-test"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@thorvg/webcanvas": "1.1.2"
   }
 }

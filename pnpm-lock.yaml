@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@thorvg/webcanvas':
+        specifier: 1.1.2
+        version: 1.1.2
     devDependencies:
       '@types/node':
         specifier: ^26.1.2
@@ -16,6 +20,9 @@ importers:
         version: 7.0.2
 
 packages:
+
+  '@thorvg/webcanvas@1.1.2':
+    resolution: {integrity: sha512-Vw9UJMNMJ1b2F4hA8zBY3Q0xgfF/9n5pXQbpJfj6a4K3caqJN4lp6T5JmCxG+fACe5kn+BR/xMl5ejlYOgZG2Q==}
 
   '@types/node@26.1.2':
     resolution: {integrity: sha512-Vu4a5UFA9rIIFJ7rB/Vaafh9lrCQszopTCx6KjFboXTGQbPNasehVR5TEiithSDGyd1DEiUByggTZsg8jukeIg==}
@@ -149,6 +156,8 @@ packages:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
 snapshots:
+
+  '@thorvg/webcanvas@1.1.2': {}
 
   '@types/node@26.1.2':
     dependencies:

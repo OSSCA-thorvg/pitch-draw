@@ -13,9 +13,9 @@
  *     손맛은 굵기·겹·색에서만 뽑는다.
  */
 
-import { init, type Color, type Shape, type ThorVG } from '../../vendor/webcanvas.esm.js';
+import { init, type Shape, type ThorVGNamespace } from '@thorvg/webcanvas';
 import { STAGE_W, STAGE_H } from '../stage.js';
-import { INK } from './palette.js';
+import { INK, type Color } from './palette.js';
 import { clamp } from '../math.js';
 import type { Score, Point } from '../engine/score.js';
 
@@ -55,9 +55,9 @@ export async function createRenderer(
   { onStatus }: RendererOptions = {},
 ): Promise<Renderer> {
   const locateFile = (p: string): string =>
-    new URL(`../../vendor/${p.split('/').pop() ?? p}`, import.meta.url).href;
+    new URL(`../webcanvas/${p.split('/').pop() ?? p}`, import.meta.url).href;
 
-  let TVG: ThorVG;
+  let TVG: ThorVGNamespace;
   try {
     TVG = await init({ renderer: 'gl', locateFile });
   } catch {

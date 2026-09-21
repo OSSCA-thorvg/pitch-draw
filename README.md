@@ -42,6 +42,12 @@ pnpm start
 
 브라우저에서 `http://127.0.0.1:8123/`을 엽니다. ES 모듈과 WebAssembly를 사용하므로 `file://`로 직접 열면 동작하지 않습니다.
 
+WebCanvas는 npm 의존성 `@thorvg/webcanvas`로 설치됩니다. `pnpm build`는 TypeScript를
+컴파일한 뒤 설치된 패키지의 JS·WASM을 `dist/webcanvas/`로 복사합니다. `pnpm watch`도
+시작할 때 같은 파일을 복사합니다. 타입은 패키지의 공식 선언을 사용합니다.
+브라우저는 `index.html`의 import map으로 로컬 파일을 불러오므로 CDN 접속이 필요 없습니다.
+정적 배포에는 `index.html`, CSS 등 페이지 자산과 `dist/` 전체를 포함합니다.
+
 ## 검사
 
 ```bash
